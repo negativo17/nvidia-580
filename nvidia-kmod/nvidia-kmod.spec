@@ -5,7 +5,7 @@
 
 Name:           nvidia-kmod
 Version:        580.105.08
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          3
 License:        NVIDIA License
@@ -42,32 +42,28 @@ rm -f */dkms.conf
 
 for kernel_version in %{?kernel_versions}; do
     mkdir _kmod_build_${kernel_version%%___*}
-    cp -fr kernel* _kmod_build_${kernel_version%%___*}
+    cp -fr Kbuild Makefile common conftest.sh *.mk nvidia* _kmod_build_${kernel_version%%___*}/
 done
 
 %build
-if [ -f /etc/nvidia/kernel.conf ]; then
-    . /etc/nvidia/kernel.conf
-fi
 for kernel_version in %{?kernel_versions}; do
     pushd _kmod_build_${kernel_version%%___*}/
-        make %{?_smp_mflags} -C ${MODULE_VARIANT} \
-            KERNEL_UNAME="${kernel_version%%___*}" modules
+        make %{?_smp_mflags} KERNEL_UNAME="${kernel_version%%___*}" modules
     popd
 done
 
 %install
-if [ -f /etc/nvidia/kernel.conf ]; then
-    . /etc/nvidia/kernel.conf
-fi
 for kernel_version in %{?kernel_versions}; do
     mkdir -p %{buildroot}/%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/
-    install -p -m 0755 _kmod_build_${kernel_version%%___*}/${MODULE_VARIANT}/*.ko \
+    install -p -m 0755 _kmod_build_${kernel_version%%___*}/*.ko \
         %{buildroot}/%{kmodinstdir_prefix}/${kernel_version%%___*}/%{kmodinstdir_postfix}/
 done
 %{?akmod_install}
 
 %changelog
+* Wed Nov 19 2025 Simone Caronni <negativo17@gmail.com> - 3:580.105.08-2
+- Drop open module precompiled code for 580 long term maintenance.
+
 * Fri Nov 07 2025 Simone Caronni <negativo17@gmail.com> - 3:580.105.08-1
 - Update to 580.105.08.
 
