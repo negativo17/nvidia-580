@@ -9,18 +9,18 @@
 
 Name:           kmod-%{kmod_name}
 Version:        580.105.08
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          3
 License:        NVIDIA License
 URL:            http://www.nvidia.com/
 ExclusiveArch:  x86_64 aarch64
 
-Source0:        https://github.com/NVIDIA/open-gpu-kernel-modules/archive/%{version}/open-gpu-kernel-modules-%{version}.tar.gz
+Source0:        %{kmod_name}-kmod-%{version}-x86_64.tar.xz
+Source1:        %{kmod_name}-kmod-%{version}-aarch64.tar.xz
 
 BuildRequires:  elfutils-libelf-devel
 BuildRequires:  gcc
-BuildRequires:  gcc-c++
 BuildRequires:  kernel-abi-stablelists
 BuildRequires:  kernel-devel
 BuildRequires:  kernel-rpm-macros
@@ -37,7 +37,13 @@ depend upon the specific ABI provided by a range of releases of the same variant
 of the Linux kernel and not on any one specific build.
 
 %prep
-%autosetup -p1 -n open-gpu-kernel-modules-%{version}
+%ifarch x86_64
+%autosetup -p1 -n %{kmod_name}-kmod-%{version}-x86_64
+%endif
+
+%ifarch aarch64
+%autosetup -p1 -T -b 1 -n %{kmod_name}-kmod-%{version}-aarch64
+%endif
 
 echo "override %{kmod_name} * weak-updates/%{kmod_name}" > kmod-%{kmod_name}.conf
 
@@ -46,7 +52,6 @@ export SYSSRC=%{_usrsrc}/kernels/%{kversion}
 export IGNORE_XEN_PRESENCE=1
 export IGNORE_PREEMPT_RT_PRESENCE=1
 export IGNORE_CC_MISMATCH=1
-export EXTRA_CFLAGS+=" -Wno-incompatible-pointer-types"
 
 %make_build modules
 
@@ -54,7 +59,7 @@ export EXTRA_CFLAGS+=" -Wno-incompatible-pointer-types"
 export INSTALL_MOD_PATH=%{buildroot}%{_prefix}
 export INSTALL_MOD_DIR=extra/%{kmod_name}
 
-make -C %{_usrsrc}/kernels/%{kversion} -j$(nproc) modules_install M=$PWD/kernel-open
+make -C %{_usrsrc}/kernels/%{kversion} -j$(nproc) modules_install M=$PWD
 
 install -d %{buildroot}%{_sysconfdir}/depmod.d/
 install kmod-%{kmod_name}.conf %{buildroot}%{_sysconfdir}/depmod.d/
@@ -91,6 +96,9 @@ fi
 %config %{_sysconfdir}/depmod.d/kmod-%{kmod_name}.conf
 
 %changelog
+* Wed Nov 19 2025 Simone Caronni <negativo17@gmail.com> - 3:580.105.08-2
+- Drop open module precompiled code for 580 long term maintenance.
+
 * Fri Nov 07 2025 Simone Caronni <negativo17@gmail.com> - 3:580.105.08-1
 - Update to 580.105.08.
 

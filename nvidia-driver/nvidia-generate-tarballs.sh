@@ -2,7 +2,6 @@
 set -e
 
 set_vars() {
-   echo "Building for ${ARCH} using version ${VERSION}"
    export VERSION=${VERSION:-580.105.08}
    export TEMP_UNPACK=${ARCH}
    export PLATFORM=Linux-${ARCH}
@@ -49,7 +48,8 @@ cleanup_folder() {
         libOpenCL.so.1* \
         libEGL.so.${VERSION} \
         nvidia-installer* .manifest make* mk* libglvnd_install_checker \
-        15_nvidia_gbm.json 10_nvidia_wayland.json 20_nvidia_xcb.json 20_nvidia_xlib.json
+        15_nvidia_gbm.json 10_nvidia_wayland.json 20_nvidia_xcb.json 20_nvidia_xlib.json \
+        kernel-open
 
     if [ "${ARCH}" == x86_64 ]; then
         rm -r \
@@ -75,7 +75,7 @@ create_tarball() {
 
     rm -rf ${KMOD} ${KMOD_COMMON} ${USR_64} ${USR_32}
     mkdir ${KMOD} ${KMOD_COMMON} ${USR_64}
-    mv ${TEMP_UNPACK}/kernel* ${KMOD}/
+    mv ${TEMP_UNPACK}/kernel/* ${KMOD}/
     mv ${TEMP_UNPACK}/firmware ${TEMP_UNPACK}/nvidia-bug-report.sh ${KMOD_COMMON}/
 
     if [ "$ARCH" == x86_64 ]; then

@@ -3,7 +3,7 @@
 
 Name:           dkms-%{dkms_name}
 Version:        580.105.08
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          3
 License:        NVIDIA License
@@ -14,8 +14,6 @@ ExclusiveArch:  x86_64 aarch64
 Source0:        %{dkms_name}-kmod-%{version}-x86_64.tar.xz
 Source1:        %{dkms_name}-kmod-%{version}-aarch64.tar.xz
 Source2:        %{name}.conf
-
-Patch0:         https://github.com/Binary-Eater/open-gpu-kernel-modules/commit/331496883e2823184b92de1983f254f93577acc0.patch
 
 BuildRequires:  sed
 
@@ -49,7 +47,6 @@ sed -i -e 's/__VERSION_STRING/%{version}/g' dkms.conf
 # Create empty tree:
 mkdir -p %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/
 cp -fr * %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/
-rm -f %{buildroot}%{_usrsrc}/%{dkms_name}-%{version}/*/dkms.conf
 
 %post
 dkms add -m %{dkms_name} -v %{version} -q --rpm_safe_upgrade || :
@@ -65,6 +62,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all --rpm_safe_upgrade || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Wed Nov 19 2025 Simone Caronni <negativo17@gmail.com> - 3:580.105.08-2
+- Drop open module precompiled code for 580 long term maintenance.
+
 * Fri Nov 07 2025 Simone Caronni <negativo17@gmail.com> - 3:580.105.08-1
 - Update to 580.105.08.
 
