@@ -1,5 +1,5 @@
 Name:           nvidia-modprobe
-Version:        580.105.08
+Version:        580.119.02
 Release:        1%{?dist}
 Summary:        NVIDIA kernel module loader
 Epoch:          3
@@ -44,6 +44,9 @@ make %{?_smp_mflags} \
 %{_mandir}/man1/%{name}.1.*
 
 %changelog
+* Fri Dec 12 2025 Simone Caronni <negativo17@gmail.com> - 3:580.119.02-1
+- Update to 580.119.02.
+
 * Fri Nov 07 2025 Simone Caronni <negativo17@gmail.com> - 3:580.105.08-1
 - Update to 580.105.08.
 
