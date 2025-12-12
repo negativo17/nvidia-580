@@ -2,8 +2,8 @@
 %global dkms_name nvidia
 
 Name:           dkms-%{dkms_name}
-Version:        580.105.08
-Release:        2%{?dist}
+Version:        580.119.02
+Release:        1%{?dist}
 Summary:        NVIDIA display driver kernel module
 Epoch:          3
 License:        NVIDIA License
@@ -62,6 +62,9 @@ dkms remove -m %{dkms_name} -v %{version} -q --all --rpm_safe_upgrade || :
 %{_usrsrc}/%{dkms_name}-%{version}
 
 %changelog
+* Fri Dec 12 2025 Simone Caronni <negativo17@gmail.com> - 3:580.119.02-1
+- Update to 580.119.02.
+
 * Wed Nov 19 2025 Simone Caronni <negativo17@gmail.com> - 3:580.105.08-2
 - Drop open module precompiled code for 580 long term maintenance.
 
