@@ -10,7 +10,7 @@
 
 Name:           nvidia-driver
 Version:        580.126.09
-Release:        3%{?dist}
+Release:        5%{?dist}
 Summary:        NVIDIA's proprietary display driver for NVIDIA graphic cards
 Epoch:          3
 License:        NVIDIA License
@@ -45,9 +45,7 @@ Requires:       nvidia-driver-libs%{?_isa} = %{?epoch:%{epoch}:}%{version}
 Requires:       nvidia-kmod-common = %{?epoch:%{epoch}:}%{version}
 
 Conflicts:      nvidia-x11-drv
-Conflicts:      nvidia-x11-drv-470xx
 Conflicts:      xorg-x11-drv-nvidia
-Conflicts:      xorg-x11-drv-nvidia-470xx
 
 %description
 This package provides the most recent NVIDIA display driver which allows for
@@ -58,10 +56,9 @@ version %{version}.
 
 %package libs
 Summary:        Libraries for %{name}
-Requires:       egl-gbm%{?_isa} >= 2:1.1.2.1
-Requires:       (egl-wayland%{?_isa} >= 1.1.20 or egl-wayland2%{?_isa} >= 1.0.0~20250806gitd4deb7c-3)
-Suggests:       egl-wayland%{?_isa} >= 1.1.20
-Requires:       egl-x11%{?_isa} >= 1.0.3
+Requires:       egl-gbm%{?_isa} >= 2:1.1.3
+Requires:       egl-wayland%{?_isa} >= 1.1.21
+Requires:       egl-x11%{?_isa} >= 1.0.4
 Requires:       libvdpau%{?_isa} >= 1.5
 Requires:       libglvnd%{?_isa} >= 1.0
 Requires:       libglvnd-egl%{?_isa} >= 1.0
@@ -74,9 +71,7 @@ Requires:       libnvidia-gpucomp%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{rele
 Requires:       libnvidia-ml%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{release}
 
 Conflicts:      nvidia-x11-drv-libs
-Conflicts:      nvidia-x11-drv-470xx-libs
 Conflicts:      xorg-x11-drv-nvidia-libs
-Conflicts:      xorg-x11-drv-nvidia-470xx-libs
 
 %description libs
 This package provides the shared libraries for %{name}.
@@ -94,7 +89,6 @@ Requires:       libnvidia-gpucomp%{?_isa} = %{?epoch:%{epoch}:}%{version}-%{rele
 Requires:       libnvidia-ml = %{?epoch:%{epoch}:}%{version}-%{release}
 
 Conflicts:      xorg-x11-drv-nvidia-cuda-libs
-Conflicts:      xorg-x11-drv-nvidia-470xx-cuda-libs
 
 %description cuda-libs
 This package provides the CUDA libraries for %{name}-cuda.
@@ -151,7 +145,6 @@ Requires:       (ocl-icd or OpenCL-ICD-Loader)
 Requires:       opencl-filesystem
 
 Conflicts:      xorg-x11-drv-nvidia-cuda
-Conflicts:      xorg-x11-drv-nvidia-470xx-cuda
 
 %description cuda
 This package provides the CUDA integration components for %{name}.
@@ -164,7 +157,6 @@ Requires:       xorg-x11-server-Xorg%{?_isa}
 Supplements:    (nvidia-driver and xorg-x11-server-Xorg)
 
 Conflicts:      xorg-x11-drv-nvidia
-Conflicts:      xorg-x11-drv-nvidia-470xx
 
 %description -n xorg-x11-nvidia
 The NVIDIA X.org X11 driver and associated components.
@@ -492,6 +484,12 @@ appstream-util validate --nonet %{buildroot}%{_metainfodir}/com.nvidia.driver.me
 %{_libdir}/libnvidia-ml.so.%{version}
 
 %changelog
+* Tue Feb 03 2026 Simone Caronni <negativo17@gmail.com> - 3:580.126.09-5
+- Adjust EGL libraries requirement.
+
+* Tue Feb 03 2026 Simone Caronni <negativo17@gmail.com> - 3:580.126.09-4
+- Drop conflicts with old RPMFusion 470 packages.
+
 * Sun Jan 25 2026 Simone Caronni <negativo17@gmail.com> - 3:580.126.09-3
 - Avoid Vulkan loader warning message.
 
