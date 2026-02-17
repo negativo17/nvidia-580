@@ -1,6 +1,6 @@
 Name:           nvidia-settings
-Version:        580.126.09
-Release:        2%{?dist}
+Version:        580.126.18
+Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 Epoch:          3
 License:        GPLv2+
@@ -134,6 +134,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}.appda
 %{_libdir}/libXNVCtrl.so
 
 %changelog
+* Tue Feb 17 2026 Simone Caronni <negativo17@gmail.com> - 3:580.126.18-1
+- Update to 580.126.18.
+
 * Tue Feb 03 2026 Simone Caronni <negativo17@gmail.com> - 3:580.126.09-2
 - Workaround for ld issue in Fedora 44.
 
