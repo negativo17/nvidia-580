@@ -14,7 +14,6 @@ Patch0:         %{name}-desktop.patch
 Patch1:         %{name}-lib-permissions.patch
 Patch2:         %{name}-link-order.patch
 Patch3:         %{name}-libXNVCtrl.patch
-Patch4:         %{name}-objcopy.patch
 
 BuildRequires:  desktop-file-utils
 BuildRequires:  dbus-devel
@@ -136,6 +135,7 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}.appda
 %changelog
 * Tue Feb 17 2026 Simone Caronni <negativo17@gmail.com> - 3:580.126.18-1
 - Update to 580.126.18.
+- Drop objcopy workaround.
 
 * Tue Feb 03 2026 Simone Caronni <negativo17@gmail.com> - 3:580.126.09-2
 - Workaround for ld issue in Fedora 44.
