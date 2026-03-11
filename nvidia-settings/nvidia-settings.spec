@@ -1,5 +1,5 @@
 Name:           nvidia-settings
-Version:        580.126.18
+Version:        580.142
 Release:        1%{?dist}
 Summary:        Configure the NVIDIA graphics driver
 Epoch:          3
@@ -133,6 +133,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_metainfodir}/%{name}.appda
 %{_libdir}/libXNVCtrl.so
 
 %changelog
+* Wed Mar 11 2026 Simone Caronni <negativo17@gmail.com> - 3:580.142-1
+- Update to 580.142.
+
 * Tue Feb 17 2026 Simone Caronni <negativo17@gmail.com> - 3:580.126.18-1
 - Update to 580.126.18.
 - Drop objcopy workaround.
