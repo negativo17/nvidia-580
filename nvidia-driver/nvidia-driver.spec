@@ -10,7 +10,7 @@
 
 Name:           nvidia-driver
 Version:        580.142
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        NVIDIA's proprietary display driver for NVIDIA graphic cards
 Epoch:          3
 License:        NVIDIA License
@@ -186,8 +186,11 @@ rm -f libnvidia-pkcs11.so.%{version}
 %endif
 
 # Avoid harmless Vulkan loader message:
-# WARNING: [Loader Message] Code 0 : Path to given binary /usr/lib64/libGLX_nvidia.so.590.48.01 was found to differ from OS loaded path /usr/lib64/libGLX_nvidia.so.0
+# WARNING: [Loader Message] Code 0 : Path to given binary /usr/lib64/libGLX_nvidia.so.590.48.01
+# was found to differ from OS loaded path /usr/lib64/libGLX_nvidia.so.0
+# See also https://github.com/negativo17/nvidia-driver/issues/195
 mv libGLX_nvidia.so.%{version} libGLX_nvidia.so.0
+ln -sf libGLX_nvidia.so.0 libGLX_nvidia.so.%{version}
 
 # Create symlinks for shared objects
 ldconfig -vn .
@@ -408,6 +411,7 @@ appstream-util validate --nonet %{buildroot}%{_metainfodir}/com.nvidia.driver.me
 %{_libdir}/libGLESv2_nvidia.so.2
 %{_libdir}/libGLESv2_nvidia.so.%{version}
 %{_libdir}/libGLX_nvidia.so.0
+%{_libdir}/libGLX_nvidia.so.%{version}
 %{_libdir}/libnvidia-allocator.so.1
 %{_libdir}/libnvidia-allocator.so.%{version}
 %{_libdir}/libnvidia-eglcore.so.%{version}
@@ -484,6 +488,10 @@ appstream-util validate --nonet %{buildroot}%{_metainfodir}/com.nvidia.driver.me
 %{_libdir}/libnvidia-ml.so.%{version}
 
 %changelog
+* Mon Mar 16 2026 Simone Caronni <negativo17@gmail.com> - 3:580.142-2
+- libGLX_nvidia.so rename breaks nvidia-ctk CDI Vulkan passthrough to containers
+  (#195).
+
 * Wed Mar 11 2026 Simone Caronni <negativo17@gmail.com> - 3:580.142-1
 - Update to 580.142.
 
