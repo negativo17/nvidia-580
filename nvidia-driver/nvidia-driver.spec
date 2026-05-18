@@ -9,8 +9,8 @@
 %endif
 
 Name:           nvidia-driver
-Version:        580.142
-Release:        2%{?dist}
+Version:        580.159.03
+Release:        1%{?dist}
 Summary:        NVIDIA's proprietary display driver for NVIDIA graphic cards
 Epoch:          3
 License:        NVIDIA License
@@ -488,6 +488,9 @@ appstream-util validate --nonet %{buildroot}%{_metainfodir}/com.nvidia.driver.me
 %{_libdir}/libnvidia-ml.so.%{version}
 
 %changelog
+* Wed May 06 2026 José Renato <underscorejoser@gmail.com> - 3:580.159.03-1
+- Update to 580.159.03.
+
 * Mon Mar 16 2026 Simone Caronni <negativo17@gmail.com> - 3:580.142-2
 - libGLX_nvidia.so rename breaks nvidia-ctk CDI Vulkan passthrough to containers
   (#195).
