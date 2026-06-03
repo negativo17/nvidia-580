@@ -84,6 +84,7 @@ fi ||:
 %changelog
 * Wed Jun 03 2026 Simone Caronni <negativo17@gmail.com> - 3:580.159.04-1
 - Update to 580.159.04.
+- Disable S0ix power management (https://github.com/ublue-os/bazzite/issues/4982).
 
 * Wed May 06 2026 José Renato <underscorejoser@gmail.com> - 3:580.159.03-1
 - Update to 580.159.03.
