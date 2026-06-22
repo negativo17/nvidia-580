@@ -10,7 +10,7 @@
 
 Name:           nvidia-driver
 Version:        580.159.04
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        NVIDIA's proprietary display driver for NVIDIA graphic cards
 Epoch:          3
 License:        NVIDIA License
@@ -20,6 +20,7 @@ ExclusiveArch:  %{ix86} x86_64 aarch64
 Source0:        %{name}-%{version}-i386.tar.xz
 Source1:        %{name}-%{version}-x86_64.tar.xz
 Source2:        %{name}-%{version}-aarch64.tar.xz
+Source7:        nvidia-powerd.service
 Source8:        70-nvidia-driver.preset
 Source9:        70-nvidia-driver-cuda.preset
 Source13:       alternate-install-present
@@ -282,13 +283,12 @@ mkdir -p %{buildroot}%{_systemd_util_dir}/system-preset/
 install -p -m 0644 %{SOURCE8} %{SOURCE9} %{buildroot}%{_systemd_util_dir}/system-preset/
 mkdir -p %{buildroot}%{_unitdir}/
 install -p -m 0644 systemd/system/*.service %{buildroot}%{_unitdir}/
+# Overwrite powerd deamon (compute/desktop) unit
+install -p -m 0644 %{SOURCE7} %{buildroot}%{_unitdir}/
 install -p -m 0755 systemd/nvidia-sleep.sh %{buildroot}%{_bindir}/
 install -p -m 0755 -D systemd/system-sleep/nvidia %{buildroot}%{_systemd_util_dir}/system-sleep/nvidia
 install -p -m 0644 -D nvidia-dbus.conf %{buildroot}%{_datadir}/dbus-1/system.d/nvidia-dbus.conf
 
-# Ignore powerd binary exiting if hardware is not present
-# We should check for information in the DMI table
-sed -i -e 's/ExecStart=/ExecStart=-/g' %{buildroot}%{_unitdir}/nvidia-powerd.service
 
 # Vulkan layer
 install -p -m 0644 -D nvidia_layers.json %{buildroot}%{_datadir}/vulkan/implicit_layer.d/nvidia_layers.json
@@ -488,6 +488,9 @@ appstream-util validate --nonet %{buildroot}%{_metainfodir}/com.nvidia.driver.me
 %{_libdir}/libnvidia-ml.so.%{version}
 
 %changelog
+* Mon Jun 22 2026 Simone Caronni <negativo17@gmail.com> - 3:580.159.04-2
+- Do not try to run nvidia-powerd when no GPUs are present (thanks Antheas).
+
 * Wed Jun 03 2026 Simone Caronni <negativo17@gmail.com> - 3:580.159.04-1
 - Update to 580.159.04.
 
