@@ -1,6 +1,6 @@
 Name:           nvidia-persistenced
-Version:        580.159.04
-Release:        2%{?dist}
+Version:        580.173.02
+Release:        1%{?dist}
 Summary:        A daemon to maintain persistent software state in the NVIDIA driver
 Epoch:          3
 License:        GPLv2+
@@ -70,6 +70,9 @@ install -p -D -m 0644 %{SOURCE2} %{buildroot}%{_sysusersdir}/%{name}.conf
 %{_sysusersdir}/%{name}.conf
 
 %changelog
+* Mon Jun 29 2026 Simone Caronni <negativo17@gmail.com> - 3:580.173.02-1
+- Update to 580.173.02.
+
 * Mon Jun 22 2026 Simone Caronni <negativo17@gmail.com> - 3:580.159.04-2
 - Do not try to run nvidia-persistenced when no GPUs are present (thanks
   Antheas).
