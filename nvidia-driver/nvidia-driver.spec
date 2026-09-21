@@ -10,7 +10,7 @@
 
 Name:           nvidia-driver
 Version:        580.178.04
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        NVIDIA's proprietary display driver for NVIDIA graphic cards
 Epoch:          3
 License:        NVIDIA License
@@ -302,12 +302,14 @@ cp %{SOURCE42} %{buildroot}%{_datadir}/pixmaps/
 # nvsandboxutils configuration
 install -p -m 0644 -D sandboxutils-filelist.json %{buildroot}%{_datadir}/nvidia/files.d/sandboxutils-filelist.json
 
-# dnf needs-restarting plugin
-# dnf4 only for the moment: https://github.com/rpm-software-management/dnf5/issues/1815
-%if 0%{?fedora} < 42 || 0%{?rhel}
+%if 0%{?rhel} < 11
 mkdir -p %{buildroot}%{_sysconfdir}/dnf/plugins/needs-restarting.d
 echo %{name} > %{buildroot}%{_sysconfdir}/dnf/plugins/needs-restarting.d/%{name}.conf
 echo %{name}-cuda > %{buildroot}%{_sysconfdir}/dnf/plugins/needs-restarting.d/%{name}-cuda.conf
+%else
+mkdir -p %{buildroot}%{_datadir}/dnf5/suggest-reboot.d/
+echo %{name} %{buildroot}%{_datadir}/dnf5/suggest-reboot.d/%{name}.conf
+echo %{name}-cuda %{buildroot}%{_datadir}/dnf5/suggest-reboot.d/%{name}-cuda.conf
 %endif
 
 %check
@@ -365,8 +367,10 @@ appstream-util validate --nonet %{buildroot}%{_metainfodir}/com.nvidia.driver.me
 %{_unitdir}/nvidia-resume.service
 %{_unitdir}/nvidia-suspend.service
 %{_unitdir}/nvidia-suspend-then-hibernate.service
-%if 0%{?fedora} < 42 || 0%{?rhel}
-%{_sysconfdir}/dnf/plugins/needs-restarting.d/%{name}.conf
+%if 0%{?rhel} < 11
+%config %{_sysconfdir}/dnf/plugins/needs-restarting.d/%{name}.conf
+%else
+%{_datadir}/dnf5/suggest-reboot.d/%{name}.conf
 %endif
 
 %if 0%{?fedora} || 0%{?rhel} < 10
@@ -391,8 +395,10 @@ appstream-util validate --nonet %{buildroot}%{_metainfodir}/com.nvidia.driver.me
 %{_mandir}/man1/nvidia-smi.*
 %{_prefix}/lib/nvidia/alternate-install-present
 %{_systemd_util_dir}/system-preset/70-nvidia-driver-cuda.preset
-%if 0%{?fedora} < 42 || 0%{?rhel}
-%{_sysconfdir}/dnf/plugins/needs-restarting.d/%{name}-cuda.conf
+%if 0%{?rhel} < 11
+%config %{_sysconfdir}/dnf/plugins/needs-restarting.d/%{name}-cuda.conf
+%else
+%{_datadir}/dnf5/suggest-reboot.d/%{name}-cuda.conf
 %endif
 
 %endif
@@ -488,6 +494,10 @@ appstream-util validate --nonet %{buildroot}%{_metainfodir}/com.nvidia.driver.me
 %{_libdir}/libnvidia-ml.so.%{version}
 
 %changelog
+* Mon Sep 21 2026 Simone Caronni <negativo17@gmail.com> - 3:580.178.04-2
+- Enable reboot suggestion for DNF 5:
+  https://github.com/rpm-software-management/dnf5/pull/2929
+
 * Fri Sep 04 2026 Simone Caronni <negativo17@gmail.com> - 3:580.178.04-1
 - Update to 580.178.04.
 
