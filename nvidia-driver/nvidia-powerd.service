@@ -1,6 +1,5 @@
 [Unit]
 Description=nvidia-powerd service
-ConditionPathExistsGlob=/dev/nvidia*
 
 [Service]
 Type=simple

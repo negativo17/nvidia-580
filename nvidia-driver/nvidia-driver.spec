@@ -10,7 +10,7 @@
 
 Name:           nvidia-driver
 Version:        580.178.04
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        NVIDIA's proprietary display driver for NVIDIA graphic cards
 Epoch:          3
 License:        NVIDIA License
@@ -494,6 +494,9 @@ appstream-util validate --nonet %{buildroot}%{_metainfodir}/com.nvidia.driver.me
 %{_libdir}/libnvidia-ml.so.%{version}
 
 %changelog
+* Fri Sep 25 2026 Simone Caronni <negativo17@gmail.com> - 3:580.178.04-3
+- Remove device filter in nvidia-powerd unit.
+
 * Mon Sep 21 2026 Simone Caronni <negativo17@gmail.com> - 3:580.178.04-2
 - Enable reboot suggestion for DNF 5:
   https://github.com/rpm-software-management/dnf5/pull/2929

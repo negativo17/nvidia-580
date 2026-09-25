@@ -1,6 +1,5 @@
 [Unit]
 Description=NVIDIA Persistence Daemon
-ConditionPathExistsGlob=/dev/nvidia*
 
 [Service]
 Type=forking
