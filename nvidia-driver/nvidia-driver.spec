@@ -10,7 +10,7 @@
 
 Name:           nvidia-driver
 Version:        580.178.04
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        NVIDIA's proprietary display driver for NVIDIA graphic cards
 Epoch:          3
 License:        NVIDIA License
@@ -302,14 +302,14 @@ cp %{SOURCE42} %{buildroot}%{_datadir}/pixmaps/
 # nvsandboxutils configuration
 install -p -m 0644 -D sandboxutils-filelist.json %{buildroot}%{_datadir}/nvidia/files.d/sandboxutils-filelist.json
 
-%if 0%{?rhel} < 11
+%if 0%{?rhel} && 0%{?rhel} < 11
 mkdir -p %{buildroot}%{_sysconfdir}/dnf/plugins/needs-restarting.d
 echo %{name} > %{buildroot}%{_sysconfdir}/dnf/plugins/needs-restarting.d/%{name}.conf
 echo %{name}-cuda > %{buildroot}%{_sysconfdir}/dnf/plugins/needs-restarting.d/%{name}-cuda.conf
 %else
 mkdir -p %{buildroot}%{_datadir}/dnf5/suggest-reboot.d/
-echo %{name} %{buildroot}%{_datadir}/dnf5/suggest-reboot.d/%{name}.conf
-echo %{name}-cuda %{buildroot}%{_datadir}/dnf5/suggest-reboot.d/%{name}-cuda.conf
+echo %{name} > %{buildroot}%{_datadir}/dnf5/suggest-reboot.d/%{name}.conf
+echo %{name}-cuda > %{buildroot}%{_datadir}/dnf5/suggest-reboot.d/%{name}-cuda.conf
 %endif
 
 %check
@@ -367,7 +367,7 @@ appstream-util validate --nonet %{buildroot}%{_metainfodir}/com.nvidia.driver.me
 %{_unitdir}/nvidia-resume.service
 %{_unitdir}/nvidia-suspend.service
 %{_unitdir}/nvidia-suspend-then-hibernate.service
-%if 0%{?rhel} < 11
+%if 0%{?rhel} && 0%{?rhel} < 11
 %config %{_sysconfdir}/dnf/plugins/needs-restarting.d/%{name}.conf
 %else
 %{_datadir}/dnf5/suggest-reboot.d/%{name}.conf
@@ -395,7 +395,7 @@ appstream-util validate --nonet %{buildroot}%{_metainfodir}/com.nvidia.driver.me
 %{_mandir}/man1/nvidia-smi.*
 %{_prefix}/lib/nvidia/alternate-install-present
 %{_systemd_util_dir}/system-preset/70-nvidia-driver-cuda.preset
-%if 0%{?rhel} < 11
+%if 0%{?rhel} && 0%{?rhel} < 11
 %config %{_sysconfdir}/dnf/plugins/needs-restarting.d/%{name}-cuda.conf
 %else
 %{_datadir}/dnf5/suggest-reboot.d/%{name}-cuda.conf
@@ -494,6 +494,9 @@ appstream-util validate --nonet %{buildroot}%{_metainfodir}/com.nvidia.driver.me
 %{_libdir}/libnvidia-ml.so.%{version}
 
 %changelog
+* Wed Sep 30 2026 Simone Caronni <negativo17@gmail.com> - 3:580.178.04-4
+- Fix DNF 5 reboot suggestion on Fedora.
+
 * Fri Sep 25 2026 Simone Caronni <negativo17@gmail.com> - 3:580.178.04-3
 - Remove device filter in nvidia-powerd unit.
 
