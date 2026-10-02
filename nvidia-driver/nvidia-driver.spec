@@ -10,7 +10,7 @@
 
 Name:           nvidia-driver
 Version:        580.178.04
-Release:        4%{?dist}
+Release:        5%{?dist}
 Summary:        NVIDIA's proprietary display driver for NVIDIA graphic cards
 Epoch:          3
 License:        NVIDIA License
@@ -494,6 +494,9 @@ appstream-util validate --nonet %{buildroot}%{_metainfodir}/com.nvidia.driver.me
 %{_libdir}/libnvidia-ml.so.%{version}
 
 %changelog
+* Fri Oct 02 2026 Simone Caronni <negativo17@gmail.com> - 3:580.178.04-5
+- Add developer_name to AppStream metadata for repository catalogs.
+
 * Wed Sep 30 2026 Simone Caronni <negativo17@gmail.com> - 3:580.178.04-4
 - Fix DNF 5 reboot suggestion on Fedora.
 
