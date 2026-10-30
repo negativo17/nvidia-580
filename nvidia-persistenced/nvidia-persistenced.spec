@@ -1,6 +1,6 @@
 Name:           nvidia-persistenced
-Version:        580.178.04
-Release:        2%{?dist}
+Version:        580.196.07
+Release:        1%{?dist}
 Summary:        A daemon to maintain persistent software state in the NVIDIA driver
 Epoch:          3
 License:        GPLv2+
@@ -70,6 +70,9 @@ install -p -D -m 0644 %{SOURCE2} %{buildroot}%{_sysusersdir}/%{name}.conf
 %{_sysusersdir}/%{name}.conf
 
 %changelog
+* Fri Oct 30 2026 Simone Caronni <negativo17@gmail.com> - 3:580.196.07-1
+- Update to 580.196.07.
+
 * Fri Sep 25 2026 Simone Caronni <negativo17@gmail.com> - 3:580.178.04-2
 - Remove device filter in systemd unit.
 

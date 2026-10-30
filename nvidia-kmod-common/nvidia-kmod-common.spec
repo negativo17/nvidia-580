@@ -5,8 +5,8 @@
 %global __brp_strip %{nil}
 
 Name:           nvidia-kmod-common
-Version:        580.178.04
-Release:        2%{?dist}
+Version:        580.196.07
+Release:        1%{?dist}
 Summary:        Common file for NVIDIA's proprietary driver kernel modules
 Epoch:          3
 License:        NVIDIA License
@@ -79,6 +79,9 @@ fi ||:
 %{_udevrulesdir}/60-nvidia.rules
 
 %changelog
+* Fri Oct 30 2026 Simone Caronni <negativo17@gmail.com> - 3:580.196.07-1
+- Update to 580.196.07.
+
 * Fri Sep 25 2026 Simone Caronni <negativo17@gmail.com> - 3:580.178.04-2
 - Review udev rules and cover the specific case of unprivileged containers
   trying to run CUDA (https://anatase.org/).
